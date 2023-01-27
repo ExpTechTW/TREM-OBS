@@ -15,14 +15,27 @@
         <div class="eew_box">
             <img src="https://exptech.com.tw/api/v1/trem/rts-image?v=0" alt="" id="img" style="width: 45%;height: 39%;">
             <div class="info_box">
-                <div class="info_text info_text_title">中央氣象局(CWB) 地震預警 | 第1報</div>
+                <script>
+                    var ws = new WebSocket("wss://exptech.com.tw/api/v1/earthquake/eew?type=eew-cwb");
+                    ws.onmessage = function(e) {
+                        var data = JSON.parse(e.data);
+                        var number = data.number;
+                        var info_text_title = document.getElementsByClassName("info_text_title")[0];
+                        info_text_title.innerHTML = "中央氣象局(CWB) 地震預警 | 第" + data.number + "報";
+                    };
+                    ws.onopen = function() {
+                        console.log("WebSocket connected!");
+                        ws.send(JSON.stringify({data: "eew-v1"}));
+                    };
+                </script>
+                <div class="info_text info_text_title"></div>
                 <div class="info_text_box">
                     <div class="info_text info_text_body" >預估震度 3級 以上地區</div>
                     <div class="info_text info_text_body" >臺南市 高雄市 屏東縣 臺東縣</div>
                 </div>
             </div>
         </div>
-    </div>
+    </body>
 
     <script>
         let time = 0
