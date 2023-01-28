@@ -24,8 +24,11 @@
                         info_text_title.innerHTML = "中央氣象局(CWB) 地震預警 | 第" + data.number + "報";
                     };
                     ws.onopen = function() {
-                        console.log("WebSocket connected!");
-                        ws.send(JSON.stringify({data: "eew-v1"}));
+                        ws.send(JSON.stringify({
+                            uuid     : localStorage.UUID,
+                            function : "subscriptionService",
+                            value    : ["eew-v1"],
+                            key      : "",}))
                     };
                 </script>
                 <div class="info_text info_text_title"></div>
